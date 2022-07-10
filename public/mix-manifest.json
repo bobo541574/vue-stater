@@ -1,5 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/vendor.js": "/js/vendor.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/images/myanmar.png": "/images/myanmar.png",
+    "/images/united-kingdom.png": "/images/united-kingdom.png"
 }

@@ -62,7 +62,7 @@ import {
   UsersIcon,
   XIcon,
 } from "@heroicons/vue/outline";
-import { ref } from "vue";
+import { ref, inject, onMounted } from "vue";
 
 const navigation = [
   {
@@ -127,6 +127,14 @@ export default {
   },
 
   setup() {
+    const eventBus = inject('eventBus');
+    
+    onMounted(() => {
+      eventBus.on('toggleSidebar', (value) => {
+        console.log(value);
+      })
+    });
+
     return {
       navigation,
     };

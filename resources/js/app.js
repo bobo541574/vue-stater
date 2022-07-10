@@ -1,15 +1,16 @@
-import { createApp } from "vue";
+import app from "./root";
 
-import { router } from "./plugins/vue-router";
+import { router } from "Resources/plugins/vue-router";
+import {i18n, t} from "Resources/plugins/i18n";
+import mitt from 'mitt';
 
-// Components
-import Master from "../js/layouts/Master.vue";
-import MainLayout from "../js/layouts/MainLayout.vue";
+const emitter = mitt();
 
-const app = createApp(Master);
 app.use(router);
-app.component("m-layout", MainLayout);
+app.use(i18n);
+app.provide("eventBus", emitter);
+app.provide("trans", t);
 
 app.mount("#app");
 
-export default app;
+require('./component')

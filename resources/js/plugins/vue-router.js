@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-import store from "../store";
-import routes from "../routes";
+import store from "Resources/store";
+import routes from "Resources/routes";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -9,11 +9,12 @@ export const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.meta.auth && !store.state.auth.authenticated) {
+    console.log(store.state);
+    if (to.meta.auth && !store.state.auth.user.token) {
         next({
             name: "login", //redo set login
         });
-    } else if (store.state.auth.authenticated && to.meta.guest) {
+    } else if (store.state.auth.user.token && to.meta.guest) {
         next({
             name: "home",
         });

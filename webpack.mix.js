@@ -15,4 +15,9 @@ mix.js("resources/js/app.js", "public/js")
     .vue()
     .js("resources/js/vendor.js", "public/js")
     .vue()
-    .postCss("resources/css/app.css", "public/css", [require("tailwindcss")]);
+    .postCss("resources/css/app.css", "public/css", [require("tailwindcss")])
+    .alias({
+        Core: "core/resources/js",
+        Resources: "resources/js"
+    })
+    .copy("resources/images/", "public/images");

@@ -1,7 +1,8 @@
 export default {
     user: {
-        name: "Bo Bo",
+        data: {
+            name: "Bo Bo",
+        },
+        token: 123,
     },
-    token: 123,
-    authenticated: true || false,
 };
