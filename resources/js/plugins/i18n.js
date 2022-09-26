@@ -7,6 +7,11 @@ export const i18n = createI18n({
     messages,
 });
 
+/**
+ * It takes a message as a parameter, and returns the translation of that message
+ * @param message - The message to be translated.
+ * @returns The translation of the message.
+ */
 export const t = (message) => { 
     return i18n.global.t(`message.${message}`);
 };
