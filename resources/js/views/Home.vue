@@ -2,17 +2,24 @@
   <main-layout>
     <div class="mx-auto text-3xl font-semibold">Home</div>
     <div class="flex justify-center my-6">
-      <base-input type="text" id="name" name="name" v-model="form.name" />
+      <base-input
+        type="text"
+        id="name"
+        name="name"
+        :classes="'border-red-700'"
+        v-model="form.name"
+      />
       <base-input type="number" id="price" name="price" v-model="form.price" />
+    </div>
+    <div class="border bg-white p-4">
+      <base-image-upload @upload="uploadImages" />
     </div>
   </main-layout>
 </template>
 
 <script>
 import { onMounted, inject, reactive } from "vue";
-import BaseInput from "../components/BaseInput.vue";
 export default {
-  components: { BaseInput },
   name: "Home",
 
   setup() {
@@ -21,6 +28,7 @@ export default {
     const form = reactive({
       name: "",
       price: 0,
+      images: [],
     });
 
     onMounted(() => {
@@ -29,8 +37,13 @@ export default {
       });
     });
 
+    const uploadImages = (images) => {
+      Object.assign(form, { images: images });
+    };
+
     return {
       form,
+      uploadImages,
     };
   },
 };

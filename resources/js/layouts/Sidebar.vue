@@ -60,8 +60,8 @@ import {
   HomeIcon,
   InboxIcon,
   UsersIcon,
-  XIcon,
-} from "@heroicons/vue/outline";
+  XMarkIcon,
+} from "@heroicons/vue/24/outline";
 import { ref, inject, onMounted } from "vue";
 
 const navigation = [
@@ -117,7 +117,7 @@ export default {
     HomeIcon,
     InboxIcon,
     UsersIcon,
-    XIcon,
+    XMarkIcon,
   },
 
   props: {
@@ -127,12 +127,12 @@ export default {
   },
 
   setup() {
-    const eventBus = inject('eventBus');
-    
+    const eventBus = inject("eventBus");
+
     onMounted(() => {
-      eventBus.on('toggleSidebar', (value) => {
+      eventBus.on("toggleSidebar", (value) => {
         console.log(value);
-      })
+      });
     });
 
     return {

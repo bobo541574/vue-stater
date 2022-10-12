@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 flex justify-between item-center shadow">
     <a href="#" class="hover:text-gray-700" @click="toggleSidebar">
-      <MenuIcon class="h-6 w-6" aria-hidden="true" />
+      <Bars3Icon class="h-6 w-6" aria-hidden="true" />
     </a>
     <div class="ml-4 flex items-center md:ml-6">
       <Menu as="div" class="ml-3 relative">
@@ -143,8 +143,8 @@ import { ref, reactive, inject, onMounted } from "vue";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 
-import { BellIcon, MenuAlt2Icon, MenuIcon } from "@heroicons/vue/outline";
-import { SearchIcon } from "@heroicons/vue/solid";
+import { BellIcon, Bars4Icon, Bars3Icon } from "@heroicons/vue/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/vue/24/solid";
 const userNavigation = [
   { name: "Your Profile", href: "#" },
   { name: "Settings", href: "#" },
@@ -173,9 +173,9 @@ export default {
     MenuItem,
     MenuItems,
     BellIcon,
-    MenuAlt2Icon,
-    SearchIcon,
-    MenuIcon,
+    Bars4Icon,
+    MagnifyingGlassIcon,
+    Bars3Icon,
   },
 
   setup(props, { emit }) {
@@ -193,9 +193,12 @@ export default {
 
     const changeLocale = (locale) => {
       eventBus.emit("localeChange", locale ?? "mm");
-      Object.assign(selectedLang, ...lang.filter(l => {
-        return l.key == locale;
-      }));
+      Object.assign(
+        selectedLang,
+        ...lang.filter((l) => {
+          return l.key == locale;
+        })
+      );
     };
 
     return {
