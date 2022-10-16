@@ -36,26 +36,12 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <DialogPanel
-              class="
-                relative
-                transform
-                overflow-hidden
-                rounded
-                bg-white
-                px-4
-                pt-5
-                pb-4
-                text-left
-                shadow-xl
-                transition-all
-                sm:my-8 sm:w-full sm:max-w-sm sm:p-6
-              "
-            >
+            <DialogPanel :class="getModalSize">
               <div>
                 <!-- Header -->
                 <slot name="header">
                   <div
+                    v-if="hasConfig"
                     class="
                       mx-auto
                       flex
@@ -77,7 +63,7 @@
 
                 <!-- Body -->
                 <slot name="body">
-                  <div class="mt-3 text-center sm:mt-5">
+                  <div v-if="hasConfig" class="mt-3 text-center sm:mt-5">
                     <DialogTitle as="h3" :class="getTitleClass">{{
                       getTitle
                     }}</DialogTitle>
@@ -92,7 +78,10 @@
 
               <!-- Footer -->
               <slot name="footer">
-                <div class="flex justify-between space-x-4 mt-5">
+                <div
+                  v-if="hasConfig"
+                  class="flex justify-between space-x-4 mt-5"
+                >
                   <button type="button" :class="getCancelClass" @click="hide">
                     {{ getCancel }}
                   </button>
@@ -140,22 +129,28 @@ export default {
 
   props: {
     config: {
-      default: {
-        title: "Confirmation",
-        titleClasses: "text-lg font-medium leading-6 text-gray-900",
-        message: "Are you sure?",
-        messageClasses: "text-sm text-gray-500",
-        icon: "CheckIcon",
-        iconClasses: "h-6 w-6 text-green-600",
-        cancel: "Cancel",
-        cancelClasses:
-          "inline-flex w-full justify-center rounded border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm",
-        confirm: "Confirm",
-        confirmClasses:
-          "inline-flex w-full justify-center rounded border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm",
-        confirmAction: null,
-      },
+      // default: {
+      //   title: "Confirmation",
+      //   titleClasses: "text-lg font-medium leading-6 text-gray-900",
+      //   message: "Are you sure?",
+      //   messageClasses: "text-sm text-gray-500",
+      //   icon: "CheckIcon",
+      //   iconClasses: "h-6 w-6 text-green-600",
+      //   cancel: "Cancel",
+      //   cancelClasses:
+      //     "inline-flex w-full justify-center rounded border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm",
+      //   confirm: "Confirm",
+      //   confirmClasses:
+      //     "inline-flex w-full justify-center rounded border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm",
+      //   confirmAction: null,
+      // },
+      default: {},
       type: Object,
+      required: false,
+    },
+    size: {
+      default: "lg",
+      type: [String],
       required: false,
     },
   },
@@ -165,10 +160,20 @@ export default {
     /**
      * title, titleClasses, message, messageClasses, icon, iconClasses, cancel, cancelClasses, cancelAction, confirm, confirmClasses, confirmAction
      */
-    const { config } = reactive(props);
+    const { config, size } = reactive(props);
     const open = ref(false);
 
     // computed
+    const hasConfig = computed(() => {
+      return config && Object.keys(config).length > 0;
+    });
+
+    const getModalSize = computed(() => {
+      let classes =
+        "relative transform overflow-hidden rounded bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 sm:w-full ";
+      return `${classes} sm:max-w-${size}`;
+    });
+
     const getTitle = computed(() => {
       return config.title ?? "";
     });
@@ -236,6 +241,7 @@ export default {
 
     return {
       open,
+      getModalSize,
       getTitle,
       getTitleClass,
       getMessage,
@@ -246,6 +252,7 @@ export default {
       getCancelClass,
       getConfirm,
       getConfirmClass,
+      hasConfig,
       modal,
       hide,
       callback,

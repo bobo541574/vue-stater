@@ -15,14 +15,12 @@
           :key="`${image.name}-${index}`"
           class="mx-4"
         >
-          <div
-            @click="previewImage(image)"
-            class="border shadow-sm rounded-sm bg-white p-2"
-          >
+          <div class="border shadow-sm rounded-sm bg-white p-2">
             <img
               :src="getImageUrl(image)"
               class="mx-auto w-60"
               :alt="image.name"
+              @click="previewImage(image)"
             />
             <div class="flex justify-center items-center space-x-4 mt-2">
               <div
@@ -100,8 +98,62 @@
       </label>
     </div>
 
-    <base-modal ref="previewModal" :config="config">
-      <!-- <template #body> Just Testing... </template> -->
+    <base-modal ref="previewModal" size="4xl">
+      <template #body>
+        <img :src="getPreviewImage" />
+      </template>
+      <template v-if="cropable" #footer>
+        <div class="flex justify-center space-x-4 mt-5">
+          <button
+            type="button"
+            class="
+              justify-center
+              rounded
+              border border-transparent
+              bg-red-600
+              px-4
+              py-2
+              text-base
+              font-medium
+              text-white
+              shadow-sm
+              hover:bg-red-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-red-500
+              focus:ring-offset-2
+              sm:text-sm
+            "
+            @click="hide"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="
+              justify-center
+              rounded
+              border border-transparent
+              bg-indigo-600
+              px-4
+              py-2
+              text-base
+              font-medium
+              text-white
+              shadow-sm
+              hover:bg-indigo-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-indigo-500
+              focus:ring-offset-2
+              sm:text-sm
+            "
+            @click="confirm"
+          >
+            Confirm
+          </button>
+        </div>
+      </template>
     </base-modal>
   </div>
 </template>
@@ -129,10 +181,22 @@ export default {
     "base-modal": BaseModal,
   },
 
+  props: {
+    cropable: {
+      default: false,
+      type: Boolean,
+      required: false,
+    },
+  },
+
   setup(props, { emit }) {
+    // variables
+    const { cropable } = reactive(props);
     const previewModal = ref(null);
+    const image = ref(null);
     const form = reactive({
       images: [],
+      uploadedImages: [],
     });
     const config = {
       title: "Confirmation",
@@ -153,10 +217,16 @@ export default {
       },
     };
 
+    // computed
+    const getPreviewImage = computed(() => {
+      return URL.createObjectURL(image.value);
+    });
+
     const getImages = computed(() => {
       return form.images;
     });
 
+    // methods
     const uploadImages = (e) => {
       console.log("upload: ", e.target);
     };
@@ -165,13 +235,30 @@ export default {
       return URL.createObjectURL(image);
     };
 
+    const setPreviewImage = (data) => {
+      return (image.value = data);
+    };
+
     const processImages = (e) => {
       let uploadImages = e.target.files;
       form.images.push(...uploadImages);
+
+      uploadToStorage(uploadImages);
       emitter();
     };
 
+    const uploadToStorage = (images) => {
+      let toUploadImages = Array.from(images).map((data) => {
+        return {
+          name: data.name,
+          image: `${data.lastModified}-${data.name}`,
+        };
+      });
+      form.uploadedImages.push(...toUploadImages);
+    };
+
     const previewImage = (image) => {
+      setPreviewImage(image);
       previewModal.value.modal();
     };
 
@@ -183,6 +270,12 @@ export default {
       Object.assign(form, {
         images: filteredImages,
       });
+
+      Object.assign(form, {
+        uploadedImages: filteredImages,
+      });
+
+      emitter();
     };
 
     const confirmImage = (data) => {
@@ -190,14 +283,27 @@ export default {
     };
 
     const emitter = () => {
-      emit("upload", images);
+      emit("upload", form.uploadedImages);
+    };
+
+    const hide = () => {
+      previewModal.value.hide();
+    };
+
+    const confirm = () => {
+      console.log("confirm");
+      hide();
     };
 
     return {
+      cropable,
       config,
+      hide,
+      confirm,
       previewModal,
       form,
       getImages,
+      getPreviewImage,
       uploadImages,
       previewImage,
       getImageUrl,

@@ -38,7 +38,8 @@ export default {
     });
 
     const uploadImages = (images) => {
-      Object.assign(form, { images: images });
+      console.log(images);
+      form.images = images;
     };
 
     return {
