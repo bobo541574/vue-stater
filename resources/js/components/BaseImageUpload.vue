@@ -98,9 +98,9 @@
       </label>
     </div>
 
-    <base-modal ref="previewModal" size="4xl">
+    <base-modal ref="previewModal" size="2xl">
       <template #body>
-        <img :src="getPreviewImage" />
+        <img :src="getPreviewImage" class="mx-auto" />
       </template>
       <template v-if="cropable" #footer>
         <div class="flex justify-center space-x-4 mt-5">
@@ -240,10 +240,10 @@ export default {
     };
 
     const processImages = (e) => {
-      let uploadImages = e.target.files;
-      form.images.push(...uploadImages);
+      let images = e.target.files;
+      form.images.push(...images);
 
-      uploadToStorage(uploadImages);
+      uploadToStorage(images);
       emitter();
     };
 
@@ -263,17 +263,13 @@ export default {
     };
 
     const removeImage = (data) => {
-      let filteredImages = form.images.filter(
+      form.images = form.images.filter(
         (image) => image.name !== data.name
       );
 
-      Object.assign(form, {
-        images: filteredImages,
-      });
-
-      Object.assign(form, {
-        uploadedImages: filteredImages,
-      });
+      form.uploadedImages = form.uploadedImages.filter(
+        (image) => image.name !== data.name
+      );
 
       emitter();
     };

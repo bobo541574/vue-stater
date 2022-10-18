@@ -21062,11 +21062,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var Resources_components_BaseModal_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Resources/components/BaseModal.vue */ "./resources/js/components/BaseModal.vue");
-/* harmony import */ var _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @heroicons/vue/24/outline */ "./node_modules/@heroicons/vue/24/outline/esm/PhotoIcon.js");
-/* harmony import */ var _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/vue/24/outline */ "./node_modules/@heroicons/vue/24/outline/esm/XCircleIcon.js");
-/* harmony import */ var _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/vue/24/outline */ "./node_modules/@heroicons/vue/24/outline/esm/CheckCircleIcon.js");
-/* harmony import */ var _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/vue/24/outline */ "./node_modules/@heroicons/vue/24/outline/esm/ExclamationCircleIcon.js");
+/* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/helper */ "./resources/js/util/helper.js");
+/* harmony import */ var Resources_components_BaseModal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! Resources/components/BaseModal.vue */ "./resources/js/components/BaseModal.vue");
+/* harmony import */ var _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @heroicons/vue/24/outline */ "./node_modules/@heroicons/vue/24/outline/esm/PhotoIcon.js");
+/* harmony import */ var _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @heroicons/vue/24/outline */ "./node_modules/@heroicons/vue/24/outline/esm/XCircleIcon.js");
+/* harmony import */ var _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @heroicons/vue/24/outline */ "./node_modules/@heroicons/vue/24/outline/esm/CheckCircleIcon.js");
+/* harmony import */ var _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @heroicons/vue/24/outline */ "./node_modules/@heroicons/vue/24/outline/esm/ExclamationCircleIcon.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -21079,17 +21080,18 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
+
 // components
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "BaseImageUpload",
   components: {
-    PhotoIcon: _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_2__["default"],
-    XCircleIcon: _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_3__["default"],
-    CheckCircleIcon: _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_4__["default"],
-    ExclamationCircleIcon: _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_5__["default"],
-    "base-modal": Resources_components_BaseModal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    PhotoIcon: _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_3__["default"],
+    XCircleIcon: _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_4__["default"],
+    CheckCircleIcon: _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_5__["default"],
+    ExclamationCircleIcon: _heroicons_vue_24_outline__WEBPACK_IMPORTED_MODULE_6__["default"],
+    "base-modal": Resources_components_BaseModal_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   props: {
     cropable: {
@@ -21162,9 +21164,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
     var processImages = function processImages(e) {
       var _form$images;
-      var uploadImages = e.target.files;
-      (_form$images = form.images).push.apply(_form$images, _toConsumableArray(uploadImages));
-      uploadToStorage(uploadImages);
+      var images = e.target.files;
+      (_form$images = form.images).push.apply(_form$images, _toConsumableArray(images));
+      uploadToStorage(images);
       emitter();
     };
     var uploadToStorage = function uploadToStorage(images) {
@@ -21182,14 +21184,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       previewModal.value.modal();
     };
     var removeImage = function removeImage(data) {
-      var filteredImages = form.images.filter(function (image) {
+      form.images = form.images.filter(function (image) {
         return image.name !== data.name;
       });
-      Object.assign(form, {
-        images: filteredImages
-      });
-      Object.assign(form, {
-        uploadedImages: filteredImages
+      form.uploadedImages = form.uploadedImages.filter(function (image) {
+        return image.name !== data.name;
       });
       emitter();
     };
@@ -21397,7 +21396,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     });
     var getModalSize = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
       var classes = "relative transform overflow-hidden rounded bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 sm:w-full ";
-      return "".concat(classes, " sm:max-w-").concat(size);
+      return "".concat(classes, " sm:max-w-2xl");
     });
     var getTitle = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
       var _config$title;
@@ -21471,6 +21470,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }();
     return {
       open: open,
+      size: size,
       getModalSize: getModalSize,
       getTitle: getTitle,
       getTitleClass: getTitleClass,
@@ -21752,8 +21752,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     });
     var uploadImages = function uploadImages(images) {
-      console.log(images);
-      form.images = images;
+      // form.images = images;
     };
     return {
       form: form,
@@ -21882,11 +21881,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, ["prevent"]))
   }, null, 32 /* HYDRATE_EVENTS */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_base_modal, {
     ref: "previewModal",
-    size: "4xl"
+    size: "lg"
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createSlots)({
     body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-        src: $setup.getPreviewImage
+        src: $setup.getPreviewImage,
+        "class": "mx-auto"
       }, null, 8 /* PROPS */, _hoisted_15)];
     }),
     _: 2 /* DYNAMIC */
@@ -22722,6 +22722,26 @@ __webpack_require__.r(__webpack_exports__);
     },
     token: 123
   }
+});
+
+/***/ }),
+
+/***/ "./resources/js/util/helper.js":
+/*!*************************************!*\
+  !*** ./resources/js/util/helper.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var cloneJson = function cloneJson(data) {
+  return JSON.parse(JSON.stringify(data));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  cloneJson: cloneJson
 });
 
 /***/ }),

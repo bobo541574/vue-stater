@@ -241,6 +241,7 @@ export default {
 
     return {
       open,
+      size,
       getModalSize,
       getTitle,
       getTitleClass,
