@@ -12,7 +12,12 @@
       <base-input type="number" id="price" name="price" v-model="form.price" />
     </div>
     <div class="border bg-white p-4">
-      <base-image-upload @upload="uploadImages" />
+      <base-image-upload
+        :with-confirm="true"
+        :with-crop="true"
+        @upload="uploadImages"
+      />
+      <!-- <base-image-upload :with-crop="true" @upload="uploadImages" /> -->
     </div>
   </main-layout>
 </template>

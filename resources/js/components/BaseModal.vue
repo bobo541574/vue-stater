@@ -170,8 +170,8 @@ export default {
 
     const getModalSize = computed(() => {
       let classes =
-        "relative transform overflow-hidden rounded bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 sm:w-full ";
-      return `${classes} sm:max-w-${size}`;
+        "relative transform overflow-hidden rounded bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:p-6 sm:w-full";
+      return `${classes} ${size}`;
     });
 
     const getTitle = computed(() => {

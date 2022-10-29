@@ -10,50 +10,68 @@
       "
     >
       <div class="flex flex-wrap space-y-2 space-x-4 justify-around">
-        <div
+        <template
           v-for="(image, index) in getImages"
           :key="`${image.name}-${index}`"
-          class="mx-4"
+          class=""
         >
-          <div class="border shadow-sm rounded-sm bg-white p-2">
+          <div class="relative flex justify-center items-center w-1/4">
             <img
               :src="getImageUrl(image)"
-              class="mx-auto w-60"
+              class="w-full h-auto hover:blur-sm"
               :alt="image.name"
-              @click="previewImage(image)"
             />
-            <div class="flex justify-center items-center space-x-4 mt-2">
+            <div class="absolute z-1000 flex space-x-4">
               <div
                 class="
-                  bg-red-500
-                  hover:bg-red-400
-                  rounded-sm
-                  shadow-sm
-                  p-1
-                  text-white
+                  p-0.5
+                  border border-gray-400 border-dashed
+                  rounded-lg
+                  bg-transparent
+                  text-gray-400
+                  opacity-50
                   cursor-pointer
                 "
                 @click.prevent="removeImage(image)"
               >
-                <XCircleIcon class="inline-block w-8 h-8" />
+                <XCircleIcon
+                  class="block w-3 lg:w-6 xl:w-7 h-4 lg:h-6 xl:h-7"
+                />
               </div>
               <div
+                v-if="showConfirm"
                 class="
-                  bg-green-500
-                  hover:bg-red-400
-                  rounded-sm
-                  shadow-sm
-                  p-1
-                  text-white
+                  p-0.5
+                  border border-gray-400 border-dashed
+                  rounded-lg
+                  bg-transparent
+                  text-gray-400
+                  opacity-50
                   cursor-pointer
                 "
                 @click.prevent="confirmImage(image)"
               >
-                <CheckCircleIcon class="inline-block w-8 h-8" />
+                <CheckCircleIcon
+                  class="block w-3 lg:w-6 xl:w-7 h-4 lg:h-6 xl:h-7"
+                />
+              </div>
+              <div
+                class="
+                  p-0.5
+                  border border-gray-400 border-dashed
+                  rounded-lg
+                  bg-transparent
+                  text-gray-400
+                  opacity-50
+                  cursor-pointer
+                "
+                @click.prevent="previewImage(image)"
+              >
+                <EyeIcon class="block w-3 lg:w-6 xl:w-7 h-4 lg:h-6 xl:h-7" />
               </div>
             </div>
           </div>
-        </div>
+        </template>
         <div v-if="getImages && getImages.length == 0">
           <div
             class="
@@ -98,11 +116,11 @@
       </label>
     </div>
 
-    <base-modal ref="previewModal" size="2xl">
+    <base-modal ref="previewModal" size="sm:max-w-2xl">
       <template #body>
         <img :src="getPreviewImage" class="mx-auto" />
       </template>
-      <template v-if="cropable" #footer>
+      <template v-if="withCrop" #footer>
         <div class="flex justify-center space-x-4 mt-5">
           <button
             type="button"
@@ -165,6 +183,7 @@ import { computed, reactive, ref } from "vue";
 import BaseModal from "Resources/components/BaseModal.vue";
 import {
   PhotoIcon,
+  EyeIcon,
   XCircleIcon,
   CheckCircleIcon,
   ExclamationCircleIcon,
@@ -175,6 +194,7 @@ export default {
 
   components: {
     PhotoIcon,
+    EyeIcon,
     XCircleIcon,
     CheckCircleIcon,
     ExclamationCircleIcon,
@@ -182,7 +202,12 @@ export default {
   },
 
   props: {
-    cropable: {
+    withCrop: {
+      default: false,
+      type: Boolean,
+      required: false,
+    },
+    withConfirm: {
       default: false,
       type: Boolean,
       required: false,
@@ -191,7 +216,7 @@ export default {
 
   setup(props, { emit }) {
     // variables
-    const { cropable } = reactive(props);
+    const { withCrop, withConfirm } = reactive(props);
     const previewModal = ref(null);
     const image = ref(null);
     const form = reactive({
@@ -218,6 +243,10 @@ export default {
     };
 
     // computed
+    const showConfirm = computed(() => {
+      return withCrop ? false : withConfirm ?? false;
+    });
+
     const getPreviewImage = computed(() => {
       return URL.createObjectURL(image.value);
     });
@@ -263,9 +292,7 @@ export default {
     };
 
     const removeImage = (data) => {
-      form.images = form.images.filter(
-        (image) => image.name !== data.name
-      );
+      form.images = form.images.filter((image) => image.name !== data.name);
 
       form.uploadedImages = form.uploadedImages.filter(
         (image) => image.name !== data.name
@@ -292,12 +319,13 @@ export default {
     };
 
     return {
-      cropable,
+      withCrop,
       config,
       hide,
       confirm,
       previewModal,
       form,
+      showConfirm,
       getImages,
       getPreviewImage,
       uploadImages,
