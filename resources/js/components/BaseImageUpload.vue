@@ -109,7 +109,7 @@
             name="images"
             id="images"
             class="sr-only"
-            multiple
+            :multiple="multiple"
             @change.prevent="processImages"
           />
         </div>
@@ -120,7 +120,7 @@
       <template #body>
         <img :src="getPreviewImage" class="mx-auto" />
       </template>
-      <template v-if="withCrop" #footer>
+      <template v-if="cropable" #footer>
         <div class="flex justify-center space-x-4 mt-5">
           <button
             type="button"
@@ -202,12 +202,17 @@ export default {
   },
 
   props: {
-    withCrop: {
+    multiple: {
       default: false,
       type: Boolean,
       required: false,
     },
-    withConfirm: {
+    cropable: {
+      default: false,
+      type: Boolean,
+      required: false,
+    },
+    confirmation: {
       default: false,
       type: Boolean,
       required: false,
@@ -216,7 +221,7 @@ export default {
 
   setup(props, { emit }) {
     // variables
-    const { withCrop, withConfirm } = reactive(props);
+    const { multiple, cropable, confirmation } = reactive(props);
     const previewModal = ref(null);
     const image = ref(null);
     const form = reactive({
@@ -244,7 +249,7 @@ export default {
 
     // computed
     const showConfirm = computed(() => {
-      return withCrop ? false : withConfirm ?? false;
+      return confirmation;
     });
 
     const getPreviewImage = computed(() => {
@@ -306,7 +311,7 @@ export default {
     };
 
     const emitter = () => {
-      emit("upload", form.uploadedImages);
+      emit("upload", multiple ? form.uploadedImages : form.uploadedImages[0]);
     };
 
     const hide = () => {
@@ -319,7 +324,7 @@ export default {
     };
 
     return {
-      withCrop,
+      cropable,
       config,
       hide,
       confirm,

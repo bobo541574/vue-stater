@@ -13,8 +13,9 @@
     </div>
     <div class="border bg-white p-4">
       <base-image-upload
-        :with-confirm="true"
-        :with-crop="true"
+        :multiple="true"
+        :confirmation="true"
+        :cropable="true"
         @upload="uploadImages"
       />
       <!-- <base-image-upload :with-crop="true" @upload="uploadImages" /> -->

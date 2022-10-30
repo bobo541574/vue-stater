@@ -13,6 +13,11 @@
 </head>
 
 <body>
+    <form method="POST" action="{{ route('upload') }}" enctype="multipart/form-data">
+        @csrf
+        <input type="file" name="file" id="file">
+        <button type="submit">upload</button>
+    </form>
     <div id="app">
         <Master></Master>
     </div>

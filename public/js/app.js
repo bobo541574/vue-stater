@@ -21096,12 +21096,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     "base-modal": Resources_components_BaseModal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
-    withCrop: {
+    multiple: {
       "default": false,
       type: Boolean,
       required: false
     },
-    withConfirm: {
+    cropable: {
+      "default": false,
+      type: Boolean,
+      required: false
+    },
+    confirmation: {
       "default": false,
       type: Boolean,
       required: false
@@ -21111,8 +21116,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var emit = _ref.emit;
     // variables
     var _reactive = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)(props),
-      withCrop = _reactive.withCrop,
-      withConfirm = _reactive.withConfirm;
+      multiple = _reactive.multiple,
+      cropable = _reactive.cropable,
+      confirmation = _reactive.confirmation;
     var previewModal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
     var image = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
     var form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
@@ -21154,7 +21160,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     // computed
     var showConfirm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-      return withCrop ? false : withConfirm !== null && withConfirm !== void 0 ? withConfirm : false;
+      return confirmation;
     });
     var getPreviewImage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
       return URL.createObjectURL(image.value);
@@ -21209,7 +21215,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     };
     var emitter = function emitter() {
-      emit("upload", form.uploadedImages);
+      emit("upload", multiple ? form.uploadedImages : form.uploadedImages[0]);
     };
     var hide = function hide() {
       previewModal.value.hide();
@@ -21219,7 +21225,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       hide();
     };
     return {
-      withCrop: withCrop,
+      cropable: cropable,
       config: config,
       hide: hide,
       confirm: confirm,
@@ -21841,8 +21847,9 @@ var _hoisted_13 = {
 var _hoisted_14 = {
   "class": "cursor-pointer border shadow-sm rounded p-2 text-gray-500 border-gray-500 hover:border-gray-400 hover:text-gray-400"
 };
-var _hoisted_15 = ["src"];
-var _hoisted_16 = {
+var _hoisted_15 = ["multiple"];
+var _hoisted_16 = ["src"];
+var _hoisted_17 = {
   "class": "flex justify-center space-x-4 mt-5"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -21892,11 +21899,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "images",
     id: "images",
     "class": "sr-only",
-    multiple: "",
+    multiple: $props.multiple,
     onChange: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $setup.processImages && $setup.processImages.apply($setup, arguments);
     }, ["prevent"]))
-  }, null, 32 /* HYDRATE_EVENTS */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_base_modal, {
+  }, null, 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_15)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_base_modal, {
     ref: "previewModal",
     size: "sm:max-w-2xl"
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createSlots)({
@@ -21904,13 +21911,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         src: $setup.getPreviewImage,
         "class": "mx-auto"
-      }, null, 8 /* PROPS */, _hoisted_15)];
+      }, null, 8 /* PROPS */, _hoisted_16)];
     }),
     _: 2 /* DYNAMIC */
-  }, [$setup.withCrop ? {
+  }, [$setup.cropable ? {
     name: "footer",
     fn: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "justify-center rounded border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:text-sm",
         onClick: _cache[1] || (_cache[1] = function () {
@@ -22353,8 +22360,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return $setup.form.price = $event;
         })
       }, null, 8 /* PROPS */, ["modelValue"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_base_image_upload, {
-        "with-confirm": true,
-        "with-crop": true,
+        multiple: true,
+        confirmation: true,
+        cropable: true,
         onUpload: $setup.uploadImages
       }, null, 8 /* PROPS */, ["onUpload"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <base-image-upload :with-crop=\"true\" @upload=\"uploadImages\" /> ")])];
     }),
