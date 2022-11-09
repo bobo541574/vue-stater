@@ -12,11 +12,30 @@ export const i18n = createI18n({
  * @param message - The message to be translated.
  * @returns The translation of the message.
  */
-export const t = (message) => { 
-    return i18n.global.t(`message.${message}`);
+// export const t = (message) => { 
+//     return i18n.global.t(`message.${message}`);
+// };
+
+const numberTypes = ["n", "number", "N", "Number", "NUMBER", Number];
+
+export const trans = (message, type) => {
+    if (numberTypes.includes(type)) {
+        return numbering(message);
+    } else {
+        return i18n.global.t(`message.${message}`);
+    }
+};
+
+export const numbering = (message) => {
+    let number = (message.toString()).split("");
+    let translated = number.map(n => {
+        return trans(n);
+    });
+
+    return translated.join("");
 };
 
 export default {
     i18n,
-    t,
+    trans,
 }

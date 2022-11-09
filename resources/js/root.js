@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 
-import Master from "Resources/layouts/Master.vue";
+import Master from "@/layouts/Master.vue";
 
 const app = createApp(Master);
 

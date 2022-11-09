@@ -1,9 +1,11 @@
-import app from "./root";
+import app from "./root.js";
 
-import MainLayout from "Resources/layouts/MainLayout.vue";
-import BaseInput from "Resources/components/BaseInput.vue";
-import BaseImageUpload from "Resources/components/BaseImageUpload.vue";
+import MainLayout from "@/layouts/MainLayout.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import BaseImageUpload from "@/components/BaseImageUpload.vue";
+import RealTimeMessage from "@/views/RealTimeMessage.vue";
 
 app.component("main-layout", MainLayout);
 app.component("base-input", BaseInput);
 app.component("base-image-upload", BaseImageUpload);
+app.component("real-time-message", RealTimeMessage);

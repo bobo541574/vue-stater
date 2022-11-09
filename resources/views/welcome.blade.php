@@ -9,21 +9,19 @@
 
     <title>{{ config('app.name', 'Vue 3 - Stater') }}</title>
 
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
-    <form method="POST" action="{{ route('upload') }}" enctype="multipart/form-data">
+    {{-- <form method="POST" action="{{ route('upload') }}" enctype="multipart/form-data">
         @csrf
         <input type="file" name="file" id="file">
         <button type="submit">upload</button>
-    </form>
+    </form> --}}
     <div id="app">
         <Master></Master>
     </div>
 
-    <script src="{{ mix('/js/vendor.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('/js/app.js') }}"></script>
 </body>
 
 </html>

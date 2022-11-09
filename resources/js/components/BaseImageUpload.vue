@@ -180,7 +180,7 @@
 import { computed, reactive, ref } from "vue";
 
 // components
-import BaseModal from "Resources/components/BaseModal.vue";
+import BaseModal from "@/components/BaseModal.vue";
 import {
   PhotoIcon,
   EyeIcon,

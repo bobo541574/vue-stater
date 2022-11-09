@@ -1,16 +1,18 @@
-import app from "./root";
+import "@/vendor.js";
 
-import { router } from "Resources/plugins/vue-router";
-import {i18n, t} from "Resources/plugins/i18n";
-import mitt from 'mitt';
+import app from "@/root.js";
+
+import { router } from "@/plugins/vue-router.js";
+// import { i18n } from "@/plugins/i18n.js";
+import mitt from "mitt";
 
 const emitter = mitt();
 
 app.use(router);
-app.use(i18n);
+// app.use(i18n);
 app.provide("eventBus", emitter);
-app.provide("trans", t);
+// app.provide("trans", testing);
 
 app.mount("#app");
 
-require('./component')
+import "./component.js";

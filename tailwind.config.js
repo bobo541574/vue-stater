@@ -5,7 +5,7 @@ module.exports = {
         "./resources/**/*.vue",
         "./resources/**/**/*.vue",
     ],
-    darkMode: false,
+    // darkMode: false,
     theme: {
         extend: {},
     },

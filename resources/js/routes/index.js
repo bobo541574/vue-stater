@@ -1,16 +1,16 @@
-import Home from "Resources/views/Home.vue";
-import Login from "Resources/views/Login.vue";
+import Home from "@/views/Home.vue";
+import Login from "@/views/Login.vue";
 
 export default [
+    // {
+    //     path: "/",
+    //     redirect: "/dashboard",
+    //     meta: {
+    //         auth: true,
+    //     },
+    // },
     {
         path: "/",
-        redirect: "/dashboard",
-        meta: {
-            auth: true,
-        },
-    },
-    {
-        path: "/dashboard",
         component: Home,
         name: "home",
         meta: {
@@ -25,5 +25,4 @@ export default [
             guest: true,
         },
     },
-    
 ];

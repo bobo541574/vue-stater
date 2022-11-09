@@ -1,6 +1,7 @@
 <template>
   <main-layout>
     <div class="mx-auto text-3xl font-semibold">Home</div>
+    <!-- <real-time-message /> -->
     <div class="flex justify-center my-6">
       <base-input
         type="text"
@@ -30,7 +31,7 @@ export default {
 
   setup() {
     const eventBus = inject("eventBus");
-    const trans = inject("trans");
+    // const trans = inject("trans");
     const form = reactive({
       name: "",
       price: 0,
@@ -38,6 +39,7 @@ export default {
     });
 
     onMounted(() => {
+      console.log(trans("1234", 'n'));
       eventBus.on("localeChange", (data) => {
         console.log(trans(data));
       });
